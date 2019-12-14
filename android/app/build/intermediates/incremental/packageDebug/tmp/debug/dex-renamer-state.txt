@@ -1,0 +1,4 @@
+#Fri Dec 13 12:17:02 BRT 2019
+base.0=/home/edilson/PROJETOS/bootcamp9/rn-rocketshoes/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
