@@ -10,13 +10,32 @@ export const Container = styled.View`
 `;
 
 export const ViewProduct = styled.View`
-  
-
+`;
+export const EmptyCarView = styled.View`
+  justify-content:center;
+  align-items:center;
+  padding:40px;
 `;
 
-export const DetailProduct = styled.View`
 
+export const EmptyCartImage = styled.Image`
+  width:100px;
+  height: 100px;
+  background: rgba(42,42,45,0.12);
+`
+export const EmptyCarText = styled.Text`
+  font-weight:bold;
+  font-size:20px;
+  margin: 15px 0 0 0
 `;
+
+export const DetailProduct = styled.FlatList.attrs({
+  showsVerticalScrollIndicator: false
+})`
+  max-height:75%;
+`;
+
+export const List = styled.View``;
 export const ProductInfoView = styled.View`
   flex-direction:row;
   justify-content:space-between;

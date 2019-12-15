@@ -1,18 +1,15 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import { Container, LogoImage, Cart, BadgeCart, ButtonLogo} from './styles';
 import Logo from '../../assets/logo.png';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons'
 
-
-
-export default function Header(props){
+function Header({navigation, totalCart}){
   function navigateToCart(){
-   const {navigation} = props; 
    navigation.navigate('Cart');
 
   }
   function navigateToHome(){
-    const {navigation} = props; 
     navigation.navigate('Main');
   }
   return(
@@ -24,9 +21,16 @@ export default function Header(props){
         <Cart>
        
           <Icon name="shopping-basket" size={30} color='#fff' onPress={navigateToCart} />
-          <BadgeCart  onPress={navigateToCart} value="3" containerStyle={{position:'absolute',top: -3, right: -8}} />
+          <BadgeCart  onPress={navigateToCart} value={totalCart} containerStyle={{position:'absolute',top: -3, right: -8}} />
           
         </Cart>
     </Container>
   )
 }
+
+const mapStateToProps = state => ({
+  totalCart: state.cart.length  
+
+});
+
+export default connect(mapStateToProps)(Header);
