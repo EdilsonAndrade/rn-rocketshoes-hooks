@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import {
   Container, ViewProduct, ProductInfoView, ProductImage, DescriptionView, Title, Price, ButtonDelete, ActionsView, AmountText,
   ProductActionAndPriceView, TitleTotal, TotalPrice, UnitPrice, EndOrderButton,
-  DetailProduct, TextBuyButton, List, EmptyCarView, EmptyCartImage, EmptyCarText
+  DetailProduct, TextBuyButton, List, EmptyCarView, EmptyCartImage, EmptyCarText,
+  ButtonIncrement, ButtonDecrement
 } from './styles';
 import Header from '../../components/header';
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -70,9 +71,14 @@ console.tron.log(totalCart);
           </ProductInfoView>
           <ProductActionAndPriceView >
             <ActionsView>
-              <Icon name="add-circle-outline" size={25} color="#3c64ad" onPress={() => incrementProduct(item)}></Icon>
+              <ButtonIncrement onPress={() => incrementProduct(item)}>
+              <Icon name="add-circle-outline" size={25} color="#3c64ad" ></Icon>
+              </ButtonIncrement>
+              
               <AmountText>{item.amount}</AmountText>
-              <Icon name="remove-circle-outline" size={25} color="#3c64ad" onPress={() => decrementProduct(item)}></Icon>
+              <ButtonDecrement  onPress={() => decrementProduct(item)}>
+              <Icon name="remove-circle-outline" size={25} color="#3c64ad"></Icon>
+              </ButtonDecrement>
             </ActionsView>
             <UnitPrice>{item.subtotal}</UnitPrice>
           </ProductActionAndPriceView>

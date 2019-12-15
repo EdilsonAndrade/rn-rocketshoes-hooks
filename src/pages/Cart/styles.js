@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { RectButton } from 'react-native-gesture-handler'
+import { RectButton, BorderlessButton } from 'react-native-gesture-handler'
 import {lighten} from 'polished';
 export const Container = styled.View`
   padding: 10px;
@@ -26,7 +26,7 @@ export const EmptyCartImage = styled.Image`
 export const EmptyCarText = styled.Text`
   font-weight:bold;
   font-size:20px;
-  margin: 15px 0 0 0
+  margin: 15px 0 0 0;
 `;
 
 export const DetailProduct = styled.FlatList.attrs({
@@ -36,6 +36,7 @@ export const DetailProduct = styled.FlatList.attrs({
 `;
 
 export const List = styled.View``;
+
 export const ProductInfoView = styled.View`
   flex-direction:row;
   justify-content:space-between;
@@ -57,7 +58,7 @@ export const Title = styled.Text.attrs({
 export const Price = styled.Text`
   font-weight:bold;
 `;
-export const ButtonDelete = styled(RectButton)`
+export const ButtonDelete = styled(BorderlessButton)`
 `;
 
 export const ProductActionAndPriceView = styled.View`
@@ -75,6 +76,9 @@ export const ActionsView = styled.View`
   align-items:center;
   height:40px;
 `;
+
+export const ButtonIncrement = styled(BorderlessButton)``;
+export const ButtonDecrement = styled(BorderlessButton)``;
 
 export const AmountText = styled.Text`
   color: #000000;
