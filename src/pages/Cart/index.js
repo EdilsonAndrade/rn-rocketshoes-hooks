@@ -1,7 +1,7 @@
 import React from 'react';
 import {Alert} from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
+
 import {
   Container, ViewProduct, ProductInfoView, ProductImage, DescriptionView, Title, Price, ButtonDelete, ActionsView, AmountText,
   ProductActionAndPriceView, TitleTotal, TotalPrice, UnitPrice, EndOrderButton,
@@ -14,7 +14,21 @@ import * as CartActions from '../../store/modules/cart/actions';
 import api from '../../services/api';
 import EmptyImage from '../../assets/emptycart.png'
 
-function Cart({ cart, total, updateAmountSuccess, deleteSuccess , totalCart}) {
+export default function Cart() {
+
+  const cart = useSelector(state=>state.cart.map(product => ({
+      ...product,
+      subtotal: (product.amount * product.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    }
+    )));
+
+  const total = useSelector(state=>(state.cart.reduce((total, product) => {
+    return (total + product.price * product.amount)
+  }, 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+
+  const totalCart = useSelector(state=>state.cart.length);
+   
+  const dispatch = useDispatch();
 
   async function incrementProduct(product) {
     //here is an example in case you have to use Redux Saga, for the side effects
@@ -24,7 +38,7 @@ function Cart({ cart, total, updateAmountSuccess, deleteSuccess , totalCart}) {
     const stock = await api.get(`/stock/${product.id}`);
     
     if(stock.data.amount >=(product.amount+1)){
-      updateAmountSuccess(product.id, product.amount + 1);
+      dispatch(CartActions.updateAmountSuccess(product.id, product.amount + 1));
     }else{
       Alert.alert(
         'Fora de estoque',
@@ -38,9 +52,8 @@ function Cart({ cart, total, updateAmountSuccess, deleteSuccess , totalCart}) {
   }
   function decrementProduct(product) {
 
-    updateAmountSuccess(product.id, product.amount - 1);
+    dispatch(CartActions.updateAmountSuccess(product.id, product.amount - 1));
   }
-console.tron.log(totalCart);
   return (
     <Container>
       {(totalCart <=0) ?
@@ -63,7 +76,7 @@ console.tron.log(totalCart);
               <Title>{item.title}</Title>
               <Price>{item.priceFormated}</Price>
             </DescriptionView>
-            <ButtonDelete onPress={() => deleteSuccess(item.id)}>
+            <ButtonDelete onPress={() => dispatch(CartActions.deleteSuccess(item.id))}>
               <Icon name="delete-forever" size={30} color="#3c64ad"></Icon>
 
             </ButtonDelete>
@@ -106,18 +119,3 @@ Cart.navigationOptions = {
   title: 'Cart',
   header: ({ navigation }) => <Header navigation={navigation} />,
 };
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-const mapStateToProps = state => ({
-  cart: state.cart.map(product => ({
-    ...product,
-    subtotal: (product.amount * product.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-  }
-  )),
-  total: (state.cart.reduce((total, product) => {
-    return (total + product.price * product.amount)
-  }, 0)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
-  totalCart: state.cart.length  
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
